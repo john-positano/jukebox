@@ -1,0 +1,283 @@
+<html>
+<head>
+<title>Jukebox</title>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet"> 
+
+<style>
+
+body, html {
+
+	min-width: 500px;
+	height: 3000px;
+
+}
+
+#playarea {
+
+	padding: 10px;
+
+}
+
+.player {
+
+	position: relative;
+	border-radius: 10px;
+	background-color: darkgrey;
+	padding: 5px;
+	width: 100%;
+	height: 20vh;
+	min-height: 150px;
+
+}
+
+.top {
+
+	width: 100%;
+	height: 80%;
+	position: relative;
+	padding: 0px;
+	top: 0px;
+	left: 0px;
+	background-color: black;
+	border-radius: 5px 5px 0 0;
+
+
+}
+
+.topleft {
+
+	position: relative;
+	left: 0px;
+	top: 0px;
+	width: 70%;
+	height: 100%;
+
+}
+
+.topright {
+
+	position: relative;
+	left: 70%;
+	top: -100%;
+	width: calc(30% - 4px);
+	height: 100%;
+	padding: 0%;
+	margin: 0%;
+
+
+}
+
+.mins, .secs {
+
+	height: 100%;
+	margin: 0px;
+	border: 0px;
+	padding: 0%;
+	background-color: black;
+	color: #00ff00;
+	font-size: 8vw;
+
+}
+
+.mins {
+
+	position: relative;
+	top: 0%;
+	left: 0%;
+	width: 45%;
+	border: 0px;
+	text-align: right;
+
+}
+
+.colon {
+
+	position: relative;
+	top: calc(-55% - 4.1vw);
+	left: 50%;
+	width: 10%;
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	font-size: 8vw;
+	z-index: 5;
+	color: #00ff00;
+
+}
+
+.secs {
+
+	top: 0%;
+	left: 55%;
+	width: 45%;
+	border: 0px;
+	position: absolute;
+	text-align: center;
+
+}
+
+
+#aud {
+
+width: 100%;
+height: 20%;
+border-radius: 0 0 5px 5px;
+
+}
+
+#header h1, #header {
+
+	font-size: 100px;
+	text-align: center;
+	vertical-align: center;
+	font-family: 'Orbitron', sans-serif;	
+
+}
+
+#vinyl {
+
+	width: 100px;
+	height: 100px;
+	animation-name: vinyl;
+    	animation-duration: 4s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+
+}
+
+@keyframes vinyl {
+
+    from {
+
+		-webkit-transform: rotateY(0deg);
+		transform: rotateY(0deg);
+
+}
+    to {
+
+		-webkit-transform: rotateY(360deg);
+		transform: rotateY(360deg);
+
+}
+
+}
+
+#subtext {
+
+	text-align: center;
+	font-size: 20px;
+	box-shadow: 0 0 5px black;
+
+}
+
+#header, #subtext {
+
+</style>
+
+</head>
+<body>
+
+<div class="container-fluid">
+
+	<div class="row" id="header">
+
+		<h1>JUKEB<img src="vinyl.jpg" id="vinyl" data-placement="bottom" data-toggle="tooltip" title="This took me FOREVER to animate properly...">X</h1>
+
+	</div>
+
+	<div class="row" id="subtext">
+
+		Search, play, download, and email call recordings.
+
+	</div>
+	<div class="row" id="playarea">
+
+		<div class="player">
+			
+			<div class="top">
+			
+				<div class="topleft">
+
+				</div>
+				
+				<div class="topright">
+
+					<input type="text" value="0" class="mins">
+					<h1 class="colon">:</h1>	
+					<input type="text" value="00" class="secs">
+
+				</div>
+
+			</div>
+
+			<div class="bottom">
+ 				<audio controls id="aud">
+  					<source src="http://172.16.80.125/recordings1/C3/03/MP3/20160715/20160715-124048_2817445737_9865-all.mp3">
+				</audio>
+			</div>
+
+		</div>
+ 
+	</div>
+
+</div>
+
+
+<script>
+
+$('[data-toggle="tooltip"]').tooltip();
+$('.player').draggable({ axis : 'y' });
+
+$("#aud").on("timeupdate", function(event) {
+
+var minutes = 0;
+var seconds = Math.round(event.target.currentTime);
+
+if (event.target.currentTime >= 60) {
+
+	seconds = Math.round(event.target.currentTime % 60);
+	minutes = Math.round(event.target.currentTime - (event.target.currentTime % 60)) / 60; 
+
+}
+
+if (seconds.toString().length < 2) {
+
+	seconds = "0" + seconds;
+
+}
+
+this.offsetParent.children[0].children[1].children[2].value = seconds;
+this.offsetParent.children[0].children[1].children[0].value = minutes;
+
+});
+
+$('.secs').keyup(function(event) { 
+
+	if (event.key == "Enter") {
+
+aud.currentTime = (($(this).prev().prev().val() * 60) + parseInt($(this).val()));
+
+} 
+
+});
+
+$('.mins').keyup(function(event) { 
+
+	if (event.key == "Enter") {
+
+aud.currentTime = ((parseInt($(this).val()) * 60) + parseInt($(this).next().next().val()));
+
+} 
+
+});
+</script>
+
+</body>
+</html>
+

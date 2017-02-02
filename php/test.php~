@@ -1,0 +1,27 @@
+<?php
+
+include 'query.php';
+
+$step1 = query("172.16.80.23", "CloudDialerReplica03", "sa", "k!p@ny52", "SELECT lead_id FROM vicidial_log WHERE phone_number = '4235620232'");
+
+$step2 = [];
+
+for ($i = 0; $step1[$i]; $i++) {
+
+array_push($step2, $step1[$i][0]);
+
+}
+
+$step3 = array_unique($step2);
+var_dump($step3);
+
+for ($j = 0; $step3[$i]; $j++) {
+
+	$querystring = "SELECT location FROM recording_log WHERE lead_id = '" . $step3[$i] . "'";
+
+	$stmt = $dbh->query($querystring);
+	echo $stmt->fetchAll();
+
+} 
+
+?>

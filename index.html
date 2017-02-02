@@ -1,0 +1,1095 @@
+<html>
+<head>
+<title>Jukebox</title>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet"> 
+
+<style>
+
+body, html {
+
+	min-width: 500px;
+	height: 3000px;
+
+}
+
+#playarea {
+
+	padding: 10px;
+
+}
+
+.ui-datepicker {
+
+	background-color: white;
+	width: 400px;
+	box-shadow: 0 0 5px black;
+	border-radius: 5px;
+	text-align: center;
+	font-size: 20px;
+
+}
+
+.ui-datepicker-calendar {
+
+	table-layout: fixed;
+	width: 100%;
+	
+
+}
+
+.ui-datepicker-calendar td, .ui-datepicker-calendar th {
+
+	text-align: center;
+	height: 30px;
+	font-size: 20px;
+
+}
+
+.player {
+
+	position: relative;
+	border-radius: 10px;
+	background-color: darkgrey;
+	padding: 5px;
+	width: 100%;
+	height: 20vh;
+	min-height: 150px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+
+}
+
+.top {
+
+	width: 100%;
+	height: 80%;
+	position: relative;
+	padding: 0px;
+	top: 0px;
+	left: 0px;
+	background-color: black;
+	border-radius: 5px 5px 0 0;
+
+
+}
+
+.topleft {
+
+	position: relative;
+	left: 0px;
+	top: 0px;
+	width: 70%;
+	height: 100%;
+
+}
+
+.topright {
+
+	position: relative;
+	left: 70%;
+	top: -100%;
+	width: calc(30% - 4px);
+	height: 100%;
+	padding: 0%;
+	margin: 0%;
+
+
+}
+
+.mins, .secs, .colon {
+
+	height: 100%;
+	margin: 0px;
+	border: 0px;
+	padding: 0%;
+	background-color: black;
+	color: #00ff00;
+	font-size: 8vw;
+
+}
+
+.mins {
+
+	position: relative;
+	top: 0%;
+	left: 0%;
+	width: 45%;
+	border: 0px;
+	text-align: right;
+
+}
+
+.colon {
+
+	position: absolute;
+	top: 0%;
+	left: 45%;
+	width: 10%;
+	border: 0px;
+	text-align: center;
+
+}
+
+.secs {
+
+	top: 0%;
+	left: 55%;
+	width: 45%;
+	border: 0px;
+	position: absolute;
+	text-align: left;
+
+}
+
+
+audio {
+
+width: 100%;
+height: 20%;
+border-radius: 0 0 5px 5px;
+
+}
+
+#header h1, #header {
+
+	font-size: 100px;
+	text-align: center;
+	vertical-align: center;
+	font-family: 'Orbitron', sans-serif;	
+
+}
+
+#vinyl {
+
+	width: 100px;
+	height: 100px;
+	animation-name: vinyl;
+    	animation-duration: 4s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+
+}
+
+
+
+@keyframes vinyl {
+
+    from {
+
+		-webkit-transform: rotateY(0deg);
+		transform: rotateY(0deg);
+
+}
+    to {
+
+		-webkit-transform: rotateY(360deg);
+		transform: rotateY(360deg);
+
+}
+
+}
+
+#subtext {
+
+	text-align: center;
+	font-size: 20px;
+	box-shadow: 0 5px 5px grey;
+	background-color: lightgrey;
+	width: 99.5vw;
+
+}
+
+#search {
+
+	position: fixed;
+	width: 100vw;
+	height: 75px;	
+	left: 0px;
+	top: calc(100vh - 75px);
+	background-color: grey;
+	text-align: center;
+	vertical-align: center;
+	box-shadow: 0 -5px 5px grey;	
+
+}
+
+#searcher {
+
+	text-align: center;
+	width: calc(100% - 10px);
+	height: calc(100% - 10px);
+	font-family: 'Orbitron', sans-serif;
+	padding: 0px;
+	margin: 0px;
+	font-size: 30px;
+	box-shadow: 0 0 5px black;
+
+}
+
+#datepicker, #datepicker2 {
+
+	text-align: center;
+	width: 400px;
+	height: 65px;
+	font-family: 'Orbitron', sans-serif;
+	padding: 0px;
+	margin: 0px;
+	font-size: 30px;
+	box-shadow: 0 0 5px black;
+
+}
+
+#emailpicker {
+
+	text-align: center;
+	width: 400px;
+	height: 65px;
+	font-family: 'Orbitron', sans-serif;
+	padding: 0px;
+	margin: 0px;
+	font-size: 15px;
+	box-shadow: 0 0 5px black;
+
+}
+
+#yapper {
+
+	height: 400px;
+	overflow-y: scroll;
+
+}
+
+.searchblank {
+
+	vertical-align: center;
+	padding: 5px;
+
+}
+
+.buttonblank {
+
+	height: 100%;
+
+}
+
+#go {
+
+	position: absolute;
+	top: 5px;
+	left: 0px;
+	height: calc(100% - 10px);
+	font-family: 'Orbitron', sans-serif;
+	font-size: 30px;
+	text-align: center;
+	vertical-align: center;
+	width: 100px;
+	box-shadow: 0 0 5px black;
+
+}
+
+#bringback {
+
+	position: absolute;
+	top: 5px;
+	left: 110px;
+	height: calc(100% - 10px);
+	font-family: 'Orbitron', sans-serif;
+	font-size: 30px;
+	text-align: center;
+	vertical-align: center;
+	box-shadow: 0 0 5px black;
+
+}
+
+.modal-title, .modal-body table tr td, .modal-footer, .modal-body {
+
+	text-align: center;
+	word-wrap: break-word;
+
+}
+
+.modal-body table {
+
+	width: 100%;
+
+}
+
+.ag {
+
+	font-size: 20px;
+
+}	
+
+.resrow {
+
+	padding: 5px;
+
+}
+
+.rowholder:hover {
+
+	background-color: rgba(0, 0, 255, 0.2);
+
+}
+
+
+#idbut, #numbut {
+
+	position: absolute;
+	top: 5px;
+	height: calc(100% - 10px);
+	font-family: 'Orbitron', sans-serif;
+	font-size: 30px;
+	text-align: center;
+	vertical-align: center;
+	width: 100px;
+	box-shadow: 0 0 5px black;
+
+}
+
+#idbut {
+
+	left: calc(100% - 110px);
+	color: red;
+
+}
+
+#numbut {
+
+	left: calc(100% - 215px);
+	color: blue;
+
+}
+
+.xbut {
+
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	border-radius: 5px 0px 0px 0px;
+	height: 30px;
+	width: 30px;
+	text-align: center;
+	vertical-align: center;
+	font-family: 'Orbitron', sans-serif;
+
+}
+
+.tooltip {
+
+	padding: 0px;
+
+}
+
+.emaildiv {
+
+	position: absolute;
+	top: 5%;
+	left: 45px;
+	height: 85%;
+	width: 100px;
+	background-color: grey;
+	border-radius: 5px;
+
+}
+
+.eml {
+
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	height: 80px;
+	width: 80px;
+	background-image: url("eml.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	border-radius: 5px;	
+
+}
+
+#loading {
+	
+	position: relative;
+	width: 150px;
+	height: 150px;
+	left: calc(50% - 75px);
+	display: none;
+
+}
+
+red {
+
+	color: red;
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container-fluid">
+
+	<div class="row" id="header">
+
+		<h1>JUKEB<img src="vinyl.jpg" id="vinyl" data-placement="bottom" data-toggle="tooltip" title="Look at it go!">X</h1>
+
+	</div>
+
+	<div class="row" id="subtext">
+
+		Search, play, download, and email call recordings.
+
+	</div>
+	<div class="row" id="playarea">
+
+		
+		
+	</div>
+	<div class="row" id="search">
+
+		<div class="col-xs-4"></div>
+
+		<div class="col-xs-4 searchblank">
+			<input type="text" id="searcher" placeholder="Enter Phone #" class="form-control">
+		</div>
+
+		<div class="col-xs-4 buttonblank">
+
+			<button class="btn btn-secondary" id="go" data-placement="left" data-toggle="tooltip" title="Search for this Phone Number.">GO</button>
+			<button class="btn btn-secondary" id="bringback" data-placement="left" data-toggle="tooltip" title="Bring back the results menu.">RESULTS</button>
+
+		</div>
+
+	</div>
+
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Jukebox found:</h4>
+        </div>
+        <div class="modal-body" id="yapper">
+		<table id="resultbody" style="table-layout: fixed;"></table>
+        </div>
+	<div style="padding-bottom: 10px;">
+		<img src="loader.gif" id="loading">
+	</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+<!-- Modal -->
+  <div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Select Date Range <red>(Maximum allowable search range is 1 week!!!)</red></h4>
+        </div>
+        <div class="modal-body">
+		<h3>From:</h3>
+		<input type="text" id="datepicker" readonly="readonly">
+		<hr />
+		<h3>To:</h3>
+		<input type="text" id="datepicker2" readonly="readonly">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="ag btn btn-default" data-dismiss="modal">Close</button>
+	  <button type="button" class="ag btn btn-default" id="reallygo">Choose this timeframe and Search</button>
+	  <button type="button" class="ag btn btn-default" id="reseter">Reset</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+<!-- Modal -->
+  <div class="modal fade" id="myModal3" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Enter Email:</h4>
+        </div>
+        <div class="modal-body">
+		<input type="text" id="emailpicker">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	  <button type="button" class="btn btn-default" id="emailit">Send</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+$("#bringback").on("click", function() { $("#myModal").modal() });
+
+var ajaxcount = 0;
+
+function jaxcheck() {
+
+	if (ajaxcount == 0) {
+
+		$("#loading").fadeOut();
+
+	}
+
+}
+
+$("#reseter").on("click", function() {
+
+	$("#datepicker").val(null);
+	$("#datepicker2").val(null);
+	$("#datepicker").datepicker( "option", "minDate", null );
+	$("#datepicker").datepicker( "option", "maxDate", new Date() );
+	$("#datepicker2").datepicker( "option", "minDate", null );
+	$("#datepicker2").datepicker( "option", "maxDate", new Date() );
+
+});
+
+$( "#datepicker" ).datepicker({ maxDate : new Date() });
+$( "#datepicker" ).on("input change", function() {
+
+	datelow();
+
+});
+$( "#datepicker2" ).datepicker({ maxDate : new Date() });
+$( "#datepicker2" ).on("input change", function() {
+
+	datehigh();
+
+});
+
+var playerdivnumber = 0;
+var switcher = "phn";
+
+$("#numbut").css({ "box-shadow" : "0 0 10px white" });
+
+$("#idbut").on("click", function() {
+
+	$("#searcher").attr({ "placeholder" : "Enter ID" }); 
+	$("#idbut").css({ "box-shadow" : "0 0 10px white" });
+	$("#numbut").css({ "box-shadow" : "0 0 5px black" });
+	switcher = "id";
+
+});
+
+$("#numbut").on("click", function() { 
+
+	$("#searcher").attr({ "placeholder" : "4078675309" });
+	$("#numbut").css({ "box-shadow" : "0 0 10px white" }); 
+	$("#idbut").css({ "box-shadow" : "0 0 5px black" });
+	switcher = "phn";
+
+});
+
+function multipleresults(data) {
+
+	for (i=0; data[i]; i++) {
+		
+		var j = i + 1;
+	
+		var tableid = "resulta" + i;
+		var tableid2 = "resultb" + j;
+		var tableidhash = "#resulta" + i;
+		var tableidhash2 = "#resultb" + j;
+		var buttontd = "buttontd" + i;
+		var buttontdhash = "#buttontd" + i;
+		var row = "row" + i;
+		var rowhash = "#row" + i;
+		var buttonid = "button" + i;
+		var buttonidhash = "#button" + i;
+
+		var therow = $('<tr></tr>', {
+
+                	"class" : "rowholder",
+			"id" : row
+  
+                });
+
+		var addbutton = $('<button></button>', {
+			
+			"id" : buttonid,
+			"selector" : i
+		
+		});
+
+		var resultrowbtn = $('<td></td>', {
+
+                	"class" : "resrow",
+			"id" : buttontd
+  
+                });
+
+		var resultrow = $('<td></td>', {
+
+                	"class" : "resrow",
+			"id" : tableid
+  
+                });
+
+		var resultrow2 = $('<td></td>', {
+
+                	"class" : "resrow",
+			"id" : tableid2
+  
+                });
+
+		var row
+
+		$("#resultbody").append(therow);
+		$(rowhash).append(resultrowbtn).append(resultrow).append(resultrow2);
+
+		$(tableidhash).html(data[i]);
+		$(buttontdhash).append(addbutton);
+		$(buttonidhash).html("ADD");
+		$(buttonidhash).addClass("btn btn-secondary");
+		$(buttonidhash).on("click", function(event) { 
+
+			createplayer(data, event.currentTarget.attributes.selector.nodeValue);
+		
+		});
+
+	}
+
+}
+
+function createplayer(data, ness) {
+
+	playerdivnumber++
+
+   var playerdivid = "player" + playerdivnumber;
+   var playerdividhash = "#player" + playerdivnumber;
+   var playerdiv =  $('<div></div>', {
+
+			"class" : "player",
+			"id" : playerdivid
+
+			});
+   
+	$("#playarea").append(playerdiv);
+
+   var playerdivtopid = "playertop" + playerdivnumber;
+   var playerdivtopidhash = "#playertop" + playerdivnumber;
+   var playertopdiv =  $('<div></div>', {
+
+			"class" : "top",
+			"id" : playerdivtopid
+
+			});
+
+   var playerdivbottomid = "playerbottom" + playerdivnumber;
+   var playerdivbottomidhash = "#playerbottom" + playerdivnumber;
+   var playerbottomdiv =  $('<div></div>', {
+
+			"class" : "bottom",
+			"id" : playerdivbottomid
+
+			});
+
+	$(playerdividhash).append(playertopdiv).append(playerbottomdiv);
+
+
+   var playerdivtopleftid = "playertopleft" + playerdivnumber;
+   var playerdivtopleftidhash = "#playertopleft" + playerdivnumber;
+   var playertopleftdiv = $('<div></div>', {
+
+			"class" : "topleft",
+			"id" : playerdivtopleftid
+
+			});
+
+   var playerdivtoprightid = "playertopright" + playerdivnumber;
+   var playerdivtoprightidhash = "#playertopright" + playerdivnumber;
+   var playertoprightdiv = $('<div></div>', {
+
+			"class" : "topright",
+			"id" : playerdivtoprightid
+
+			});
+
+	$(playerdivtopidhash).append(playertopleftdiv).append(playertoprightdiv);
+
+
+   var audioid = "aud" + playerdivnumber;
+   var audioidhash = "#aud" + playerdivnumber;
+   var audio = $('<audio></audio>', {
+			
+			"id" : audioid,
+			"controls" : true,
+			"selector" : playerdivnumber
+	
+			});
+
+	$(playerdivbottomidhash).append(audio);
+	$(audioidhash).on("timeupdate", function(event) { timeupd(event); });
+
+   var source = $('<source>', {
+
+			"src" : data[ness],
+			"selector" : playerdivnumber
+
+		});
+
+	$(audioidhash).append(source);
+
+   var mininputid = "mininput" + playerdivnumber;
+   var mininputidhash = "#mininput" + playerdivnumber;
+   var mininput = $('<input>', {
+
+			"type" : "text",
+			"value" : "0",
+			"selector" : playerdivnumber,
+			"clock" : "minute",
+			"class" : "mins",
+			"id" : mininputid
+		
+		});
+
+   var coloninput = $('<input>', {
+
+			"type" : "text",
+			"value" : ":",
+			"class" : "colon",
+			"disabled" : true
+
+		});
+
+   var secinputid = "secinput" + playerdivnumber;
+   var secinputidhash = "#secinput" + playerdivnumber;
+   var secinput = $('<input>', {
+
+			"type" : "text",
+			"value" : "00",
+			"selector" : playerdivnumber,
+			"clock" : "second",
+			"class" : "secs",
+			"id" : secinputid
+
+		});
+
+	$(playerdivtoprightidhash).append(mininput).append(coloninput).append(secinput);
+	$(secinputidhash).on("keyup", function(event) { secsupd(event); });
+	$(mininputidhash).on("keyup", function(event) { minsupd(event); });
+	$(secinputidhash).focusout( function(event) { secsupdi(event); });
+	$(mininputidhash).focusout( function(event) { minsupdi(event); });
+
+   var xbuttonid = "xbut" + playerdivnumber;
+   var xbuttonidhash = "#xbut" + playerdivnumber;	
+   var xbutton = $('<button></button>', {
+
+			"class" : "xbut",
+			"id" : xbuttonid
+
+		});
+
+	$(playerdivtopleftidhash).append(xbutton);
+	$(xbuttonidhash).html("X");
+
+	$(xbuttonidhash).on("click", function(event) {
+
+	$(event.currentTarget.offsetParent.offsetParent.offsetParent).remove();
+
+		});
+
+   var emaildivid = "email" + playerdivnumber;
+   var emaildividhash = "#email" + playerdivnumber;
+   var emaildiv = $('<div></div>', {
+
+			"class" : "emaildiv",
+			"id" : emaildivid
+
+		});
+
+   var emailbuttonid = "eml" + playerdivnumber;
+   var emailbuttonidhash = "#eml" + playerdivnumber;
+   var emailbutton = $('<button></button>', {
+
+			"class" : "eml",
+			"id" : emailbuttonid,
+			"selector" : playerdivnumber
+
+		});
+
+	$(playerdivtopleftidhash).append(emaildiv);
+	$(emaildividhash).append(emailbutton);
+	$(emailbuttonidhash).on("click", function(event) {
+
+			emailmodal(event);
+
+		});
+
+}
+
+$('[data-toggle="tooltip"]').tooltip();
+
+$("#go").click(function() { $("#myModal2").modal(); });
+$("#reallygo").click(function() {
+
+	$("#loading").fadeIn();
+	$("#resultbody").html("");
+	$("#myModal").modal();
+	$("#myModal2").fadeOut("fast", function() { 
+
+				$("#myModal2").modal("hide"); 
+
+			});
+
+	var holdArray = new Array(); 
+
+	var lower = new Date( $("#datepicker").datepicker("getDate") );
+	var low = lower.valueOf();
+	var higher = new Date( $("#datepicker2").datepicker("getDate") );
+	var high = higher.valueOf(); 
+
+	for (i = high; i >= low; i -= 86400000) {
+
+		var hold = new Date(i);
+
+		var month = hold.getMonth() + 1;
+
+		if (month < 10) {
+			
+			month = "0" + month;
+
+		}
+
+		var date = hold.getDate();
+
+		if (date < 10) {
+			
+			date = "0" + date;
+
+		}			
+	
+		var str = "" + hold.getFullYear() + month + date;
+		holdArray.push(str);
+	
+	}
+
+	for (j in holdArray) {
+
+		queryit(holdArray[j]);
+
+	}
+
+	
+
+});
+
+function datehigh() {
+
+	var d = new Date( $("#datepicker2").datepicker("getDate") );
+	var e = d.valueOf() - 604800000;
+	$("#datepicker").datepicker( "option", "minDate", new Date(e) );
+	$("#datepicker").datepicker( "option", "maxDate", d );
+	console.log(e);
+
+}
+
+function datelow() {
+
+	var d = new Date( $("#datepicker").datepicker("getDate") );
+	var e = d.valueOf() + 604800000;
+	var f = new Date();
+	var g = f.valueOf();
+	if (e <= g) {
+	$("#datepicker2").datepicker( "option", "maxDate", new Date(e) );
+	} else {
+	$("#datepicker2").datepicker( "option", "maxDate", new Date() );
+	}
+	$("#datepicker2").datepicker( "option", "minDate", d );
+	console.log(e);
+
+} 
+
+function queryit(result) { 
+
+	ajaxcount += 1;
+	var number = $("#searcher").val();	
+	var phonearray = number.match(/\d/g);
+	var phonenumber = "";
+
+	for (i = 0; phonearray[i]; i++) {
+
+		phonenumber += phonearray[i];
+
+	}
+ 
+	if (phonenumber.length === 10) {
+
+		$("#searcher").css({ "background-color" : "white" });
+
+		
+		var batch = { phn : phonenumber, date : result };
+
+		$.ajax({
+  			method: "POST",
+  			url: "http://172.16.80.125/srchappentry/search.php",
+  			data: batch,
+			dataType: 'json'
+		}).always( function(data) {
+
+			multipleresults(data);
+			ajaxcount -= 1;
+			jaxcheck();					
+
+		});
+
+	}
+
+	if (phonenumber.length !== 10 && switcher == "phn") {
+
+		$("#searcher").css({ "background-color" : "#ffcccc" });
+		alert("That's " + phonenumber.length + " numbers!");
+
+	}
+
+}
+
+function timeupd(event) {
+
+var minutes = 0;
+var seconds = Math.round(event.target.currentTime);
+
+if (event.target.currentTime >= 60) {
+
+	seconds = Math.round(event.target.currentTime % 60);
+	minutes = Math.round(event.target.currentTime - (event.target.currentTime % 60)) / 60; 
+
+}
+
+if (seconds.toString().length < 2) {
+
+	seconds = "0" + seconds;
+
+}
+
+event.target.offsetParent.children[0].children[1].children[2].value = seconds;
+event.target.offsetParent.children[0].children[1].children[0].value = minutes;
+
+}
+
+function secsupd(event) { 
+
+	if (event.key == "Enter") {
+
+	var select = event.currentTarget.attributes.selector.nodeValue;
+	var selectstring = "[clock='second'][selector=" + select + "]";
+	var currentseconds = $(selectstring).val();
+	var select = event.currentTarget.attributes.selector.nodeValue;
+	var selectstring = "[clock='minute'][selector=" + select + "]";
+	var currentminutes = $(selectstring).val();
+	var audioselectstring = "audio[selector=" + select + "]";
+
+	$(audioselectstring)[0].currentTime = (parseInt((currentminutes * 60)) + parseInt(currentseconds));
+
+} 
+
+}
+
+function minsupd(event) { 
+
+	if (event.key == "Enter") {
+
+	var select = event.currentTarget.attributes.selector.nodeValue;
+	var selectstring = "[clock='second'][selector=" + select + "]";
+	var currentseconds = $(selectstring).val();
+	var select = event.currentTarget.attributes.selector.nodeValue;
+	var selectstring = "[clock='minute'][selector=" + select + "]";
+	var currentminutes = $(selectstring).val();
+	var audioselectstring = "audio[selector=" + select + "]";
+
+	$(audioselectstring)[0].currentTime = (parseInt((currentminutes * 60)) + parseInt(currentseconds));
+
+} 
+
+}
+
+function secsupdi(event) { 
+
+	var select = event.currentTarget.attributes.selector.nodeValue;
+	var selectstring = "[clock='second'][selector=" + select + "]";
+	var currentseconds = $(selectstring).val();
+	var select = event.currentTarget.attributes.selector.nodeValue;
+	var selectstring = "[clock='minute'][selector=" + select + "]";
+	var currentminutes = $(selectstring).val();
+	var audioselectstring = "audio[selector=" + select + "]";
+
+	$(audioselectstring)[0].currentTime = (parseInt((currentminutes * 60)) + parseInt(currentseconds));
+
+}
+
+function minsupdi(event) { 
+
+	var select = event.currentTarget.attributes.selector.nodeValue;
+	var selectstring = "[clock='second'][selector=" + select + "]";
+	var currentseconds = $(selectstring).val();
+	var select = event.currentTarget.attributes.selector.nodeValue;
+	var selectstring = "[clock='minute'][selector=" + select + "]";
+	var currentminutes = $(selectstring).val();
+	var audioselectstring = "audio[selector=" + select + "]";
+
+	$(audioselectstring)[0].currentTime = (parseInt((currentminutes * 60)) + parseInt(currentseconds));
+
+}
+
+function emailmodal() {
+
+	$("#myModal3").modal();
+	var moose = event.target.attributes.selector.nodeValue;
+	var sourceselectstring = "source[selector=" + moose + "]";
+	var srcrecord = $(sourceselectstring)[0].src;
+	$("#emailit").on("click", function() { emailit(srcrecord); });
+
+}
+
+function emailit(a) {
+
+	var emailaddress = $("#emailpicker").val();
+
+	$.ajax({
+
+  		method: "POST",
+  		url: "php/mp3mailer.php",
+  		data: { "email" : emailaddress, "file" : a },
+		dataType: 'json'
+
+	}).always( function(data) {
+
+		$("#myModal3").modal("hide"); 
+
+	});
+
+}
+
+</script>
+
+</body>
+</html>
+
